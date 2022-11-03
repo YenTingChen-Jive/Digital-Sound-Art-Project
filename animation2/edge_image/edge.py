@@ -17,7 +17,7 @@ blur_img = cv2.GaussianBlur(gray_img, (11, 11), 0)
 edges = cv2.Canny(blur_img, int(sys.argv[2]), int(sys.argv[3])) #40~90
 
 # thicken the edges
-kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3))
+kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (10,10))
 edges = cv2.dilate(edges, kernel, iterations=1)
 
 # change
@@ -28,6 +28,7 @@ cv2.imwrite("image/out_"+filename, edges)
 
 # open csv
 file = open('../input.csv', 'w')
+file_data = open('../setting.csv', 'w')
 
 # transfer to csv
 img_array = np.array(edges)
@@ -38,3 +39,13 @@ for i in range(len(img_array)):
     writer.writerow(data)
 
 file.close()
+
+# setting into csv
+h, w = edges.shape
+file_data = open('../setting.csv', 'w')
+writer = csv.writer(file_data)
+width_height = [int(w),int(h)]
+data = width_height
+writer.writerow(data)
+writer.writerow(data)
+

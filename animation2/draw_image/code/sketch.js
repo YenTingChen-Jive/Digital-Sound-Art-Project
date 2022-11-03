@@ -1,62 +1,54 @@
 let table;
-let x, y;
-let r, g, b;
-let diameter;
+let table2;
+var circles = [];
+var width, height;
+
 function preload() {
 	table = loadTable("../../input.csv", "csv", "header");
+	table2 = loadTable("../../setting.csv", "csv", "header");
 }
 
 function setup() {
 	createCanvas(500, 500);
 	background(0, 0, 0);
-	x = 0;
-	y = 0;
-	diameter = 1;
-	row = 100;
-	col = 100;
-	r = 100;
-	g = 0;
-	b = 100;
-	full = 255;
-}
-
-function random_color() {
-	r = random(0, 255);
-	g = random(0, 255);
-	b = random(0, 255);
-	full = random(0, 122);
-}
-function random_pos() {
-	diameter = random(3, 5);
-	row = int(random(0, 149));
-	col = int(random(0, 149));
-}
-function draw_dot() {
-	random_color();
-	random_pos();
-	if (int(table.getString(row, col)) != 0) {
-		noStroke();
-		fill(r, g, b, full);
-		ellipse(col, row, diameter, diameter);
-	}
+	width = table2.getString(0, 0);
+	height = table2.getString(0, 1);
+	print(width);
+	print(height);
 }
 
 function draw() {
 	// update background
 	// background(255, 255, 255);
 
-	// draw circle with x,y in csv
+	// random circle parameter
+	var circle = {
+		row: int(random(0, height - 1)),
+		col: int(random(0, width - 1)),
+		diameter: random(5, 10),
+		r: 0,
+		g: random(0, 255),
+		b: 0,
+		full: random(0, 255),
+	};
 
-	draw_dot();
-	draw_dot();
-	draw_dot();
-	draw_dot();
-	draw_dot();
-	draw_dot();
-	draw_dot();
-	draw_dot();
-	draw_dot();
-	draw_dot();
+	var overlapping = false;
+	for (var j = 0; j < circles.length; j++) {
+		var other = circles[j];
+		var d = dist(circle.row, circle.col, other.row, other.col);
+		if (d < circle.diameter + other.diameter - 7) {
+			overlapping = true;
+		}
+	}
+
+	if (!overlapping) {
+		if (int(table.getString(circle.row, circle.col)) != 0) {
+			circles.push(circle);
+			noStroke();
+			fill(circle.r, circle.g, circle.b, circle.full);
+			ellipse(circle.col, circle.row, circle.diameter, circle.diameter);
+		}
+	}
 }
 
 function mousePressed() {
