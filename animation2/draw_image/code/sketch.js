@@ -11,10 +11,9 @@ function preload() {
 function setup() {
 	createCanvas(500, 500);
 	background(0, 0, 0);
+
 	width = table2.getString(0, 0);
 	height = table2.getString(0, 1);
-	print(width);
-	print(height);
 }
 function draw_spot() {
 	// random circle parameter
@@ -22,8 +21,8 @@ function draw_spot() {
 		row: int(random(0, height - 1)),
 		col: int(random(0, width - 1)),
 		diameter: random(8, 13),
-		r: random(0, 255),
-		g: 0,
+		r: 0,
+		g: random(0, 255),
 		b: random(0, 255),
 		full: random(0, 150),
 	};
@@ -32,7 +31,7 @@ function draw_spot() {
 	for (var j = 0; j < circles.length; j++) {
 		var other = circles[j];
 		var d = dist(circle.row, circle.col, other.row, other.col);
-		if (d < circle.diameter + other.diameter - 13) {
+		if (d < circle.diameter + other.diameter - 7) {
 			overlapping = true;
 		}
 	}
@@ -48,7 +47,7 @@ function draw_spot() {
 	if (int(table.getString(circle.row, circle.col)) == 0) {
 		circles.push(circle);
 		noStroke();
-		fill(255, 255, 255, 255);
+		fill(0, random(244, 255), random(244, 255), 255);
 		//ellipse(circle.col, circle.row, 8, 8);
 		rect(circle.col, circle.row, 6, 6);
 	}
@@ -56,17 +55,10 @@ function draw_spot() {
 function draw() {
 	// update background
 	// background(255, 255, 255);
-	draw_spot();
-	draw_spot();
-	draw_spot();
-	draw_spot();
-	draw_spot();
-	draw_spot();
-	draw_spot();
-	draw_spot();
-	draw_spot();
-	draw_spot();
-	draw_spot();
+
+	for (var i = 0; i < 10; i++) {
+		draw_spot();
+	}
 }
 
 function mousePressed() {
