@@ -24,9 +24,9 @@ edges = cv2.dilate(edges, kernel, iterations=1)
 # write img
 cv2.imwrite("image/out_"+filename, edges)
 
-# open csv
-file = open('../input.csv', 'w')
-file_data = open('../setting.csv', 'w')
+# csv name
+new_file_name = filename[:-4]
+print(new_file_name)
 
 # transfer coordinates to csv
 indices = np.where(edges != [0])
@@ -36,20 +36,16 @@ lst = list(range(len(indices[0])))
 np.random.shuffle(lst)
 
 # open input csv
-file = open('../input.csv', 'w')
+file = open('csv/'+new_file_name+'.csv', 'w')
 writer = csv.writer(file)
-for i in lst:
-    data = [indices[0][i], indices[1][i]]
-    writer.writerow(data)
-
-file.close()
 
 # img setting into csv
 h, w = edges.shape
-file_data = open('../setting.csv', 'w')
-writer = csv.writer(file_data)
 width_height = [int(w),int(h)]
 data = width_height
 writer.writerow(data)
-writer.writerow(data)
+for i in lst:
+    data = [indices[0][i], indices[1][i]]
+    writer.writerow(data)
+file.close()
 

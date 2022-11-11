@@ -4,54 +4,58 @@ var shooting_array = [];
 var width, height;
 var f;
 var star_length, star_dist, num_shooting;
-var table_r, table_c;
+var table_r;
 var star_size_lower, star_size_upper;
+var table2_r;
 
 function preload() {
 	// load table
-	table = loadTable("../../input.csv", "csv", "header");
-	table2 = loadTable("../../setting.csv", "csv", "header");
+	table = loadTable("../../csv/yee2.csv", "csv");
+	table2 = loadTable("../../csv/image.csv", "csv");
 }
 
 function setup() {
 	// frame rate
-	frameRate(30);
-
-	// get width and height of meme
-	width = table2.getString(0, 0);
-	height = table2.getString(0, 1);
-
-	//background
-	createCanvas(width, height);
-	background(0, 7, 33);
-
-	// set star size
-	if (width >= height) {
-		star_length = width;
-	} else {
-		star_length = height;
-	}
-
-	star_size_upper = star_length * 0.013;
-	star_size_lower = star_length * 0.007;
-
-	// set star distance
-	star_dist = star_length * 0.0005;
+	frameRate(28);
 
 	// table_iteration
 	table_r = 0;
-	table_c = 0;
+	table2_r = 0;
+
+	//background
+	createCanvas(windowWidth, windowHeight);
+	background(0, 7, 33);
 
 	// number of shooting star
-	num_shooting = 2;
+	num_shooting = 5;
 }
 
 function draw_spot() {
 	/* normal star */
 	// get the coordinate from table
-	if (table_r < table.getRowCount() && table_c < table.getColumnCount()) {
-		row_set = int(table.getString(table_r, table_c));
-		col_set = int(table.getString(table_r, table_c + 1));
+	if (table_r < table.getRowCount()) {
+		if (table_r == 0) {
+			/* reset new */
+			// get width and height of meme
+			width = int(table.getString(0, 0));
+			height = int(table.getString(0, 1));
+
+			// set star size
+			if (width >= height) {
+				star_length = width;
+			} else {
+				star_length = height;
+			}
+
+			star_size_upper = star_length * 0.01;
+			star_size_lower = star_length * 0.005;
+			star_dist = star_length * 0.00005;
+
+			/* reset new */
+			table_r++;
+		}
+		row_set = int(table.getString(table_r, 0));
+		col_set = int(table.getString(table_r, 1));
 	}
 	table_r++;
 
@@ -67,6 +71,8 @@ function draw_spot() {
 		size: star_size,
 		row: row_set,
 		col: col_set,
+
+		angle: random(0, 0.02),
 
 		a_upx: col_set,
 		a_upy: row_set - star_size,
@@ -104,6 +110,7 @@ function draw_spot() {
 		fill(other.r, other.g, other.b, other.full);
 		drawingContext.shadowBlur = 5 + sin(other.t) * f2;
 		drawingContext.shadowColor = "rgba(other.r, other.g, other.b, 0.7)";
+
 		quad(
 			other.a_upx,
 			other.a_upy - sin(other.t) * f1,
@@ -132,7 +139,8 @@ function draw_spot() {
 		noStroke();
 		fill(star.r, star.g, star.b, star.full);
 		drawingContext.shadowBlur = 5;
-		drawingContext.shadowColor = "rgba(star.r, star.g, star.b, 0.5)";
+		drawingContext.shadowColor = "rgba(star.r, star.g, star.b, 0.7)";
+
 		quad(
 			star.a_upx,
 			star.a_upy,
@@ -162,7 +170,7 @@ function draw_spot() {
 		b: int(random(0, 255)),
 		row: random(0, height / 2),
 		col: random(0, width / 2),
-		diameter: int(random(star_length * 0.01, star_length * 0.03)),
+		diameter: int(random(star_length * 0.005, star_length * 0.015)),
 		full: int(random(0, 120)),
 		t: random(TAU),
 		dx: 3,
@@ -174,7 +182,7 @@ function draw_spot() {
 		shooting_array.push(shooting);
 		noStroke();
 		fill(shooting.r, shooting.g, shooting.b, shooting.full);
-		drawingContext.shadowBlur = 5;
+		drawingContext.shadowBlur = 2;
 		drawingContext.shadowColor = "rgba(255, 255, 255, 0.5)";
 		ellipse(
 			shooting.col,
@@ -201,11 +209,11 @@ function draw_spot() {
 
 		// twinkle
 		f1 = 0.7;
-		f2 = 5;
+		f2 = 1.5;
 		other.t += 0.1;
 		noStroke();
 		fill(other.r, other.g, other.b, other.full);
-		drawingContext.shadowBlur = 5 + sin(other.t) * f2;
+		drawingContext.shadowBlur = 2 + sin(other.t) * f2;
 		drawingContext.shadowColor = "rgba(255, 255, 255, 0.5)";
 		var scale = shooting.diameter + sin(shooting.t) * f2;
 		ellipse(other.col, other.row, scale, scale);
@@ -229,4 +237,33 @@ function draw() {
 	for (var i = 0; i < 5; i++) {
 		draw_spot();
 	}
+}
+
+function mouseClicked() {
+	// get next image name
+	if (table2_r + 1 < table2.getRowCount()) {
+		table2_r += 1;
+	} else {
+		table2_r = 0;
+	}
+
+	// open new csv
+	var filename_in = table2.getString(table2_r, 0);
+	print(filename_in);
+
+	// load table
+	table = loadTable("../../csv/" + filename_in + ".csv", "csv");
+
+	//reset
+	background(0, 7, 33);
+	star_array = [];
+	shooting_array = [];
+	table_r = 0;
+
+	// prevent default
+	return false;
+}
+
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight);
 }
