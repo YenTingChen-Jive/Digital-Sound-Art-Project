@@ -7,11 +7,14 @@ var star_length, star_dist, num_shooting;
 var table_r;
 var star_size_lower, star_size_upper;
 var table2_r;
-
+let mySound;
 function preload() {
 	// load table
 	table = loadTable("../../csv/yee2.csv", "csv");
 	table2 = loadTable("../../csv/image.csv", "csv");
+
+	mySound = loadSound("../../test.mp3", loaded);
+	mySound.play();
 }
 
 function setup() {
@@ -239,7 +242,7 @@ function draw() {
 	}
 }
 
-function mouseClicked() {
+function mousePressed() {
 	// get next image name
 	if (table2_r + 1 < table2.getRowCount()) {
 		table2_r += 1;
