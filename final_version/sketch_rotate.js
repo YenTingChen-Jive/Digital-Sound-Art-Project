@@ -1,7 +1,7 @@
 let table, table2;
 var star_array = [];
 var shooting_array = [];
-var img_width, img_height;
+var width, height;
 var f;
 var star_length, star_dist, num_shooting;
 var table_r, table2_r;
@@ -23,7 +23,7 @@ function setup() {
 	bgm[0].play();
 
 	// frame rate
-	frameRate(25);
+	frameRate(28);
 
 	// table_iteration
 	table_r = 0;
@@ -43,15 +43,15 @@ function draw_spot() {
 		if (table_r == 0) {
 			print(table_r);
 			/* reset new */
-			// get img_width and img_height of meme
-			img_width = int(table.getString(0, 0));
-			img_height = int(table.getString(0, 1));
-			print(img_width, img_height);
+			// get width and height of meme
+			width = int(table.getString(0, 0));
+			height = int(table.getString(0, 1));
+			print(width, height);
 			// set star size
-			if (img_width >= img_height) {
-				star_length = img_width;
+			if (width >= height) {
+				star_length = width;
 			} else {
-				star_length = img_height;
+				star_length = height;
 			}
 
 			star_size_upper = star_length * 0.01;
@@ -68,6 +68,7 @@ function draw_spot() {
 
 	// random star parameter
 	star_size = random(star_size_lower, star_size_upper);
+	star_angle = int(random(0, 90));
 	var star = {
 		r: int(random(255, 255)),
 		g: int(random(255, 255)),
@@ -79,7 +80,7 @@ function draw_spot() {
 		row: row_set,
 		col: col_set,
 
-		angle: random(0, 0.02),
+		angle: star_angle,
 
 		a_upx: col_set,
 		a_upy: row_set - star_size,
@@ -118,24 +119,62 @@ function draw_spot() {
 		drawingContext.shadowBlur = 5 + sin(other.t) * f2;
 		drawingContext.shadowColor = "rgba(other.r, other.g, other.b, 0.7)";
 		quad(
-			other.a_upx,
-			other.a_upy - sin(other.t) * f1,
-			other.a_rightx + sin(other.t) * f1,
-			other.a_righty,
-			other.a_downx,
-			other.a_downy,
-			other.a_leftx - sin(other.t) * f1,
-			other.a_lefty + sin(other.t) * f1
+			(other.a_upx - other.col) * cos(other.angle) -
+				(other.a_upy - other.row) * sin(other.angle) +
+				other.col,
+			(other.a_upx - other.col) * sin(other.angle) +
+				(other.a_upy - other.row) * cos(other.angle) +
+				other.row,
+
+			(other.a_rightx - other.col) * cos(other.angle) -
+				(other.a_righty - other.row) * sin(other.angle) +
+				other.col,
+			(other.a_rightx - other.col) * sin(other.angle) +
+				(other.a_righty - other.row) * cos(other.angle) +
+				other.row,
+
+			(other.a_downx - other.col) * cos(other.angle) -
+				(other.a_downy - other.row) * sin(other.angle) +
+				other.col,
+			(other.a_downx - other.col) * sin(other.angle) +
+				(other.a_downy - other.row) * cos(other.angle) +
+				other.row,
+
+			(other.a_leftx - other.col) * cos(other.angle) -
+				(other.a_lefty - other.row) * sin(other.angle) +
+				other.col,
+			(other.a_leftx - other.col) * sin(other.angle) +
+				(other.a_lefty - other.row) * cos(other.angle) +
+				other.row
 		);
 		quad(
-			other.b_upx,
-			other.b_upy - sin(other.t) * f1,
-			other.b_rightx + sin(other.t) * f1,
-			other.b_righty,
-			other.b_downx,
-			other.b_downy + sin(other.t) * f1,
-			other.b_leftx - sin(other.t) * f1,
-			other.b_lefty
+			(other.b_upx - other.col) * cos(other.angle) -
+				(other.b_upy - other.row) * sin(other.angle) +
+				other.col,
+			(other.b_upx - other.col) * sin(other.angle) +
+				(other.b_upy - other.row) * cos(other.angle) +
+				other.row,
+
+			(other.b_rightx - other.col) * cos(other.angle) -
+				(other.b_righty - other.row) * sin(other.angle) +
+				other.col,
+			(other.b_rightx - other.col) * sin(other.angle) +
+				(other.b_righty - other.row) * cos(other.angle) +
+				other.row,
+
+			(other.b_downx - other.col) * cos(other.angle) -
+				(other.b_downy - other.row) * sin(other.angle) +
+				other.col,
+			(other.b_downx - other.col) * sin(other.angle) +
+				(other.b_downy - other.row) * cos(other.angle) +
+				other.row,
+
+			(other.b_leftx - other.col) * cos(other.angle) -
+				(other.b_lefty - other.row) * sin(other.angle) +
+				other.col,
+			(other.b_leftx - other.col) * sin(other.angle) +
+				(other.b_lefty - other.row) * cos(other.angle) +
+				other.row
 		);
 	}
 
@@ -171,13 +210,13 @@ function draw_spot() {
 
 	/* Shooting star */
 	var shooting = {
-		r: 255, // int(random(0, 255))
-		g: 255,
-		b: 255,
-		row: random(0, img_height / 2),
-		col: random(0, img_width / 2),
+		r: int(random(0, 255)),
+		g: int(random(0, 255)),
+		b: int(random(0, 255)),
+		row: random(0, height / 2),
+		col: random(0, width / 2),
 		diameter: int(random(star_length * 0.005, star_length * 0.015)),
-		full: int(random(60, 100)),
+		full: int(random(0, 120)),
 		t: random(TAU),
 		dx: 3,
 		dy: 4,
@@ -208,9 +247,9 @@ function draw_spot() {
 		var other = shooting_array[j];
 		other.row += other.dy;
 		other.col += other.dx;
-		if (other.row >= img_height - 1 || other.col >= img_width - 1) {
-			other.row = random(0, img_height);
-			other.col = random(0, img_width);
+		if (other.row >= height - 1 || other.col >= width - 1) {
+			other.row = random(0, height);
+			other.col = random(0, width);
 		}
 
 		// twinkle
