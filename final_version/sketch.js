@@ -14,7 +14,7 @@ var amp;
 
 function preload() {
 	// load table
-	table = loadTable("csv/yee2.csv", "csv");
+	table = loadTable("csv/yee.csv", "csv");
 	table_setting = loadTable("setting.csv", "csv");
 	table_bgm = loadTable("music_list.csv", "csv");
 
@@ -45,8 +45,8 @@ function setup() {
 	bgm_now = 0;
 
 	// random center
-	ran_center_x = random(100, 500);
-	ran_center_y = random(100, 500);
+	ran_center_x = random(20, windowWidth / 2);
+	ran_center_y = random(20, windowHeight / 2);
 
 	// amplitude
 	amp = new p5.Amplitude();
@@ -67,8 +67,8 @@ function draw_spot() {
 				star_length = img_height;
 			}
 
-			star_size_upper = star_length * 0.01;
-			star_size_lower = star_length * 0.005;
+			star_size_upper = star_length * 0.015;
+			star_size_lower = star_length * 0.01;
 			star_dist = star_length * 0.00005;
 
 			/* reset new */
@@ -324,6 +324,8 @@ function keyPressed() {
 	} else if (keyCode === DOWN_ARROW) {
 		// next meme
 		// get next image name
+		print("rowwwww = " + table_setting.getRowCount());
+		print("rrr = " + table_setting_r);
 		if (table_setting_r + 1 < table_setting.getRowCount()) {
 			table_setting_r += 1;
 		} else {
