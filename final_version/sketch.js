@@ -309,7 +309,7 @@ function keyPressed() {
 		table = loadTable("csv/" + filename_in + ".csv", "csv");
 
 		//reset
-		background(0, 7, 33);
+		background(bg);
 		star_array = [];
 		shooting_array = [];
 
@@ -318,6 +318,7 @@ function keyPressed() {
 		ran_center_y = random(20, windowHeight / 2);
 
 		table_r = 0;
+
 		// prevent default
 		return false;
 	} else if (keyCode === DOWN_ARROW) {
@@ -336,7 +337,7 @@ function keyPressed() {
 		table = loadTable("csv/" + filename_in + ".csv", "csv");
 
 		//reset
-		background(0, 7, 33);
+		background(bg);
 		star_array = [];
 		shooting_array = [];
 
@@ -352,8 +353,10 @@ function keyPressed() {
 function keyReleased() {
 	if (keyCode === DOWN_ARROW) {
 		table_r = 0;
+		background(bg);
 	} else if (keyCode === UP_ARROW) {
 		table_r = 0;
+		background(bg);
 	}
 }
 
