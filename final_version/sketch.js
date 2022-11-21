@@ -30,7 +30,7 @@ function setup() {
 	add_bgm();
 
 	// frame rate
-	frameRate(25);
+	frameRate(100);
 
 	// table_iteration
 	table_r = 0;
@@ -45,8 +45,8 @@ function setup() {
 	bgm_now = 0;
 
 	// random center
-	ran_center_x = random(20, windowWidth / 2);
-	ran_center_y = random(20, windowHeight / 2);
+	ran_center_x = random(5, windowWidth / 2);
+	ran_center_y = random(5, windowHeight / 3);
 
 	// amplitude
 	amp = new p5.Amplitude();
@@ -67,8 +67,8 @@ function draw_spot() {
 				star_length = img_height;
 			}
 
-			star_size_upper = star_length * 0.015;
-			star_size_lower = star_length * 0.01;
+			star_size_upper = star_length * 0.013;
+			star_size_lower = star_length * 0.008;
 			star_dist = star_length * 0.00005;
 
 			/* reset new */
@@ -81,7 +81,7 @@ function draw_spot() {
 
 	//center
 	row_set += ran_center_y;
-	col_set += ran_center_y;
+	col_set += ran_center_x;
 
 	// random star parameter
 	star_size = random(star_size_lower, star_size_upper);
@@ -131,14 +131,14 @@ function draw_spot() {
 		}
 
 		// redraw stars
-		f1 = 0.7;
-		f2 = 3;
+		f1 = 1.5;
+		f2 = 1.5;
 		other.t += 0.1;
 		noStroke();
 
 		fill(255, 255, 255, other.full);
 
-		drawingContext.shadowBlur = 5 + sin(other.t) * f2;
+		drawingContext.shadowBlur = 2 + sin(other.t) * f2;
 		drawingContext.shadowColor = "rgba(other.r, other.g, other.b, 0.7)";
 		quad(
 			other.a_upx,
@@ -202,7 +202,7 @@ function draw_spot() {
 		diameter: int(random(star_length * 0.005, star_length * 0.01)),
 		full: int(random(60, 100)),
 		t: random(TAU),
-		dx: 3,
+		dx: 4,
 		dy: 4,
 	};
 
@@ -232,12 +232,12 @@ function draw_spot() {
 		other.row += other.dy;
 		other.col += other.dx;
 		if (other.row >= windowHeight - 1 || other.col >= windowWidth - 1) {
-			other.row = random(0, img_height / 2);
-			other.col = random(0, img_width);
+			other.row = random(0, windowHeight / 2);
+			other.col = random(0, windowWidth);
 		}
 
 		// twinkle
-		f1 = 0.7;
+		f1 = 1.5;
 		f2 = 1.5;
 		other.t += 0.1;
 		noStroke();
@@ -263,7 +263,7 @@ function draw() {
 	background(bg);
 
 	// draw
-	for (var i = 0; i < 5; i++) {
+	for (var i = 0; i < 10; i++) {
 		draw_spot();
 	}
 }
@@ -314,8 +314,8 @@ function keyPressed() {
 		shooting_array = [];
 
 		// new random center
-		ran_center_x = random(20, windowWidth / 2);
-		ran_center_y = random(20, windowHeight / 2);
+		ran_center_x = random(5, windowWidth / 2);
+		ran_center_y = random(5, windowHeight / 3);
 
 		table_r = 0;
 
@@ -344,8 +344,8 @@ function keyPressed() {
 		shooting_array = [];
 
 		// new random center
-		ran_center_x = random(20, windowWidth / 2);
-		ran_center_y = random(20, windowHeight / 2);
+		ran_center_x = random(5, windowWidth / 2);
+		ran_center_y = random(5, windowHeight / 3);
 
 		table_r = 0;
 		// prevent default
