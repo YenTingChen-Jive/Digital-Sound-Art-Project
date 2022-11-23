@@ -280,7 +280,7 @@ function keyPressed() {
 		shooting_array = [];
 
 		// new random center
-		ran_center_x = random(5, windowWidth / 2);
+		ran_center_x = random(5, windowWidth / 3);
 		ran_center_y = random(5, windowHeight / 3);
 
 		table_r = 0;
@@ -324,7 +324,7 @@ function keyPressed() {
 		shooting_array = [];
 
 		// new random center
-		ran_center_x = random(5, windowWidth / 2);
+		ran_center_x = random(5, windowWidth / 3);
 		ran_center_y = random(5, windowHeight / 3);
 
 		table_r = 0;
