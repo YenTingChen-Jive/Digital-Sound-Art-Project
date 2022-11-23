@@ -10,14 +10,12 @@ setting_writer = csv.writer(setting_file)
 
 # iterate all images
 for filename in os.listdir("./image"):
+    if(filename[-4:] != ".jpg" and filename[-4:] != ".png"):
+        continue
     with open(os.path.join("./image", filename), 'r') as f:
         # read img
         print("opening " + filename)
         img = cv2.imread("./image/" + filename)
-
-        # add to setting.csv
-        data = [filename[:-4]]
-        setting_writer.writerow(data)
 
         # turn gray
         gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -62,15 +60,14 @@ for filename in os.listdir("./image"):
             writer.writerow(data)
         file.close()
 
+        # adding image and songs to setting.csv
+        count = 0
+        data = [filename[:-4]]
+        for song_name in os.listdir("./music"):
+            if(song_name[0:len(filename[:-4])] == filename[:-4] ):
+                data.append(song_name)
+                count += 1
+        data.insert(1,count)
+        setting_writer.writerow(data)
+
 setting_file.close()
-
-# iterate all song
-file = open('music_list.csv', 'w')
-writer = csv.writer(file)
-
-for filename in os.listdir("./music"):
-    # open music csv
-    print(filename)
-    data = [filename]
-    writer.writerow(data)
-file.close()
