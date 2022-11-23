@@ -14,7 +14,7 @@ var ran_center_x, ran_center_y;
 
 function preload() {
 	// load table
-	table = loadTable("csv/start.csv", "csv");
+	table = loadTable("start.csv", "csv");
 	table_setting = loadTable("setting.csv", "csv");
 
 	bg = loadImage("bg/bg.jpg");
