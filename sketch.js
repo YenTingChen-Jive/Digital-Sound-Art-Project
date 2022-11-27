@@ -51,6 +51,7 @@ function setup() {
 	noFill();
 	stroke(255, 45);
 	radius = width;
+	background(0);
 }
 
 function draw_star() {
@@ -210,25 +211,25 @@ g = 137;
 b = 108;
 
 function draw_background() {
-  var center_x, center_y, noiseFactor, x, y;
-  center_x = mouseX;
-  center_y = mouseY;
-  stroke(r, g, b, 30);
-  noFill();
-  beginShape();
-  TOTAL_DEGREES = document.getElementById("degrees").value;
-  
-  for (var i = 0, _pj_a = TOTAL_DEGREES; i < _pj_a; i += 1) {
-    noiseFactor = noise(i * 0.02, Number.parseFloat(frameCount) / 140);
-    x = center_x + radius * cos(radians(i)) * noiseFactor;
-    y = center_y + radius * sin(radians(i)) * noiseFactor;
-    r = random(0, 120);
-    g = random(137, 200);
-    b = random(50, 166);
-    stroke(r, g, b, 30);
-    noFill();
-    curveVertex(x, y);
-  }
+	var center_x, center_y, noiseFactor, x, y;
+	center_x = mouseX;
+	center_y = mouseY;
+	stroke(r, g, b, 30);
+	noFill();
+	beginShape();
+	TOTAL_DEGREES = document.getElementById("degrees").value;
+
+	for (var i = 0, _pj_a = TOTAL_DEGREES; i < _pj_a; i += 1) {
+		noiseFactor = noise(i * 0.02, Number.parseFloat(frameCount) / 140);
+		x = center_x + radius * cos(radians(i)) * noiseFactor;
+		y = center_y + radius * sin(radians(i)) * noiseFactor;
+		r = random(0, 120);
+		g = random(137, 200);
+		b = random(50, 166);
+		stroke(r, g, b, 30);
+		noFill();
+		curveVertex(x, y);
+	}
 
 	endShape();
 	radius -= 1;
