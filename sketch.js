@@ -52,7 +52,10 @@ function setup() {
 
 	//background
 	createCanvas(windowWidth, windowHeight);
-	background(bg);
+  background(0);
+  noFill();
+  stroke(255, 45);
+  radius = width;
 }
 
 function draw_star() {
@@ -70,8 +73,8 @@ function draw_star() {
 				star_length = img_height;
 			}
 
-			star_size_upper = star_length * 0.015;
-			star_size_lower = star_length * 0.007;
+			star_size_upper = star_length * 0.007;
+			star_size_lower = star_length * 0.002;
 			star_dist = star_length * 0.00005;
 
 			table_r++;
@@ -243,9 +246,38 @@ function draw_shooting_star() {
 		);
 	}
 }
+
+radius = 0;
+function draw_background() {
+  var center_x, center_y, noiseFactor, x, y;
+  center_x = mouseX;
+  center_y = mouseY;
+  stroke(100, 54, 60, 30);
+  noFill();
+  beginShape();
+  TOTAL_DEGREES = document.getElementById("degrees").value;
+  
+  for (var i = 0, _pj_a = TOTAL_DEGREES; i < _pj_a; i += 1) {
+    noiseFactor = noise(i * 0.02, Number.parseFloat(frameCount) / 140);
+    x = center_x + radius * cos(radians(i)) * noiseFactor;
+    y = center_y + radius * sin(radians(i)) * noiseFactor;
+    r = random(255);
+    g = random(120);
+    b = random(220);
+    curveVertex(x, y);
+  }
+
+  endShape();
+  radius -= 1;
+
+  if (radius === -600) {
+    radius += 1200;
+  }
+}
+
 function draw() {
-	// update background
-	background(bg);
+	
+  // update background
 
 	// draw star
 	for (var i = 0; i < 10; i++) {
@@ -253,9 +285,11 @@ function draw() {
 	}
 
 	// draw shooting star
-	for (var i = 0; i < 10; i++) {
-		draw_shooting_star();
-	}
+	// for (var i = 0; i < 10; i++) {
+	// 	draw_shooting_star();
+	// }
+
+  draw_background();
 }
 
 function keyPressed() {
@@ -275,7 +309,7 @@ function keyPressed() {
 		table = loadTable("csv/" + filename_in + ".csv", "csv");
 
 		//reset
-		background(bg);
+    background(0);
 		star_array = [];
 		shooting_array = [];
 
@@ -319,7 +353,7 @@ function keyPressed() {
 		table = loadTable("csv/" + filename_in + ".csv", "csv");
 
 		//reset
-		background(bg);
+    background(0);
 		star_array = [];
 		shooting_array = [];
 
@@ -351,10 +385,10 @@ function keyPressed() {
 function keyReleased() {
 	if (keyCode === RIGHT_ARROW) {
 		table_r = 0;
-		background(bg);
+    background(0);
 	} else if (keyCode === LEFT_ARROW) {
 		table_r = 0;
-		background(bg);
+    background(0);
 	}
 }
 

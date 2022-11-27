@@ -11,6 +11,10 @@
 
 <body>
     <main>
+      <br>
+      <div><label for="degrees">Amplitude (10-360):</label>
+      <br>
+      <input type="range" id="degrees" name="degrees" min="10" max="360" step="1" value="180" oninput="document.getElementById('TOTAL_DEGREES').innerHTML = this.value">
     </main>
     <script src="sketch.js"></script>
 </body>
