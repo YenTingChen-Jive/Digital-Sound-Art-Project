@@ -224,19 +224,11 @@ function draw_background() {
     y = center_y + radius * sin(radians(i)) * noiseFactor;
     r = random(0, 120);
     g = random(137, 200);
-    b = random(0, 200);
+    b = random(50, 166);
+    stroke(r, g, b, 30);
+    noFill();
     curveVertex(x, y);
   }
-
-	for (var i = 0, _pj_a = TOTAL_DEGREES; i < _pj_a; i += 1) {
-		noiseFactor = noise(i * 0.02, Number.parseFloat(frameCount) / 140);
-		x = center_x + radius * cos(radians(i)) * noiseFactor;
-		y = center_y + radius * sin(radians(i)) * noiseFactor;
-		r = random(255);
-		g = random(120);
-		b = random(220);
-		curveVertex(x, y);
-	}
 
 	endShape();
 	radius -= 1;
