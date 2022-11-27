@@ -73,8 +73,8 @@ function draw_star() {
 				star_length = img_height;
 			}
 
-			star_size_upper = star_length * 0.007;
-			star_size_lower = star_length * 0.002;
+			star_size_upper = star_length * 0.010;
+			star_size_lower = star_length * 0.004;
 			star_dist = star_length * 0.00005;
 
 			table_r++;
@@ -248,11 +248,14 @@ function draw_shooting_star() {
 }
 
 radius = 0;
+r = 100;
+g = 54;
+b = 60;
 function draw_background() {
   var center_x, center_y, noiseFactor, x, y;
   center_x = mouseX;
   center_y = mouseY;
-  stroke(100, 54, 60, 30);
+  stroke(r, g, b, 30);
   noFill();
   beginShape();
   TOTAL_DEGREES = document.getElementById("degrees").value;
