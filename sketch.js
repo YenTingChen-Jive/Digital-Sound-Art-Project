@@ -205,13 +205,15 @@ function draw_star() {
 }
 
 radius = 0;
+r = 100;
+g = 54;
+b = 60;
 function draw_background() {
 	var center_x, center_y, noiseFactor, x, y;
 	center_x = mouseX;
 	center_y = mouseY;
 	stroke(100, 54, 60, 30);
 	noFill();
-
 	beginShape();
 	TOTAL_DEGREES = document.getElementById("degrees").value;
 

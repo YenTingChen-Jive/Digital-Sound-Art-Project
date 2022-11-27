@@ -10,7 +10,7 @@ https://editor.p5js.org/yingying0906/full/N4sj5pAUA
 4. Enter `python3 produce_csv.py` to produce the csv files
 5. open index.html with live server
 6. Press the left/right arrow key to change to the previous/next songs and images
-7. Move your mouse to generate waves in the background.
+7. Move your mouse slowly to generate waves in the background.
 
 ## Implementation
 
