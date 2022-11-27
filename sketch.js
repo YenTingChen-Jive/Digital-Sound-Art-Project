@@ -205,17 +205,28 @@ function draw_star() {
 }
 
 radius = 0;
-r = 100;
-g = 54;
-b = 60;
+r = 0;
+g = 137;
+b = 108;
+
 function draw_background() {
-	var center_x, center_y, noiseFactor, x, y;
-	center_x = mouseX;
-	center_y = mouseY;
-	stroke(100, 54, 60, 30);
-	noFill();
-	beginShape();
-	TOTAL_DEGREES = document.getElementById("degrees").value;
+  var center_x, center_y, noiseFactor, x, y;
+  center_x = mouseX;
+  center_y = mouseY;
+  stroke(r, g, b, 30);
+  noFill();
+  beginShape();
+  TOTAL_DEGREES = document.getElementById("degrees").value;
+  
+  for (var i = 0, _pj_a = TOTAL_DEGREES; i < _pj_a; i += 1) {
+    noiseFactor = noise(i * 0.02, Number.parseFloat(frameCount) / 140);
+    x = center_x + radius * cos(radians(i)) * noiseFactor;
+    y = center_y + radius * sin(radians(i)) * noiseFactor;
+    r = random(0, 120);
+    g = random(137, 200);
+    b = random(0, 200);
+    curveVertex(x, y);
+  }
 
 	for (var i = 0, _pj_a = TOTAL_DEGREES; i < _pj_a; i += 1) {
 		noiseFactor = noise(i * 0.02, Number.parseFloat(frameCount) / 140);
