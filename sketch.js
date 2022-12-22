@@ -1,33 +1,39 @@
-let table, table_setting;
+let table, table_setting2;
 var star_array = [];
 var img_width, img_height;
 var f;
 var star_length, star_dist;
 var table_r, table_setting_r;
 var star_size_lower, star_size_upper;
-var bgm = [];
-var bgm_src = [];
-var bgm_now;
+
 let bg;
 var ran_center_x, ran_center_y;
+let sel_sound, sel_music;
+var choice_sound, choice_music;
+
+var bgm_audio = [];
+var bgm_img = [];
+var bgm_name = [];
+var bgm_now_name;
+var bgm_now_i;
 
 function preload() {
 	// load table
 	table = loadTable("start.csv", "csv");
-	table_setting = loadTable("setting.csv", "csv");
-
+	table_setting2 = loadTable("setting2.csv", "csv");
 	bg = loadImage("bg/bg.jpg");
 }
 
 function add_bgm() {
-	for (var i = 0; i < table_setting.getRowCount(); i++) {
-		print("number of songs = " + table_setting.getString(i, 1));
-		for (var j = 0; j < table_setting.getString(i, 1); j++) {
-			print("songs = " + table_setting.getString(i, j + 2));
-			bgm.push(loadSound("music/" + table_setting.getString(i, j + 2)));
-			bgm_src.push(table_setting.getString(i, 0));
-		}
+	for (var i = 0; i < table_setting2.getRowCount(); i++) {
+		bgm_name.push(table_setting2.getString(i, 0));
+		bgm_audio.push(loadSound("music/" + table_setting2.getString(i, 0)));
+		bgm_img.push(table_setting2.getString(i, 1));
 	}
+	bgm_now_name = table_setting2.getString(0, 0);
+	bgm_now_i = 1;
+	choice_sound = "ba";
+	choice_music = "Canon_in_d";
 }
 
 function setup() {
@@ -40,7 +46,6 @@ function setup() {
 	// table_iteration
 	table_r = 0;
 	table_setting_r = 0;
-	bgm_now = 0;
 
 	// random center
 	ran_center_x = windowWidth / 3;
@@ -52,6 +57,27 @@ function setup() {
 	stroke(255, 45);
 	radius = width;
 	background(0);
+
+	// select box
+	textSize(40);
+	sel_sound = createSelect();
+	sel_sound.position(20, 20);
+	sel_sound.size(100, 40);
+	sel_sound.option("ba");
+	sel_sound.option("ahwei");
+	sel_sound.option("pika");
+	sel_sound.option("yee");
+	sel_sound.option("chicken");
+	sel_sound.changed(mySelectEvent1);
+
+	sel_music = createSelect();
+	sel_music.position(140, 20);
+	sel_music.size(100, 40);
+	sel_music.option("Canon_in_d");
+	sel_music.option("Elise");
+	sel_music.option("Little_star");
+	sel_music.option("Mariage");
+	sel_music.changed(mySelectEvent2);
 }
 
 function draw_star() {
@@ -250,100 +276,82 @@ function draw() {
 	}
 }
 
-function keyPressed() {
-	if (keyCode === RIGHT_ARROW) {
-		// previous meme
-		// get next image name
-		if (table_setting_r + 1 < table_setting.getRowCount()) {
-			table_setting_r++;
-		} else {
-			table_setting_r = 0;
+function mySelectEvent1() {
+	choice_sound = sel_sound.value();
+	bgm_now_name = choice_sound + "_" + choice_music + ".mp3";
+	print("bgm changed to " + bgm_now_name);
+
+	let index = 0;
+	for (var i = 0; i < bgm_name.length; i++) {
+		if (bgm_name[i] == bgm_now_name) {
+			index = i;
+			break;
 		}
-		// open new csv
-		var filename_in = table_setting.getString(table_setting_r, 0);
-		print("meme:" + filename_in);
-
-		// load table
-		table = loadTable("csv/" + filename_in + ".csv", "csv");
-
-		//reset
-		star_array = [];
-
-		// new random center
-		ran_center_x = random(5, windowWidth / 3);
-		ran_center_y = random(5, windowHeight / 3);
-
-		table_r = 0;
-
-		// stop music
-		if (bgm[bgm_now].isPlaying()) {
-			bgm[bgm_now].stop();
-		}
-
-		// select random music
-		ran_song = [];
-		for (var i = 0; i < bgm_src.length; i++) {
-			if (bgm_src[i] == filename_in) {
-				ran_song.push(i);
-			}
-		}
-		bgm_now = ran_song[Math.floor(Math.random() * ran_song.length)];
-		bgm[bgm_now].play();
-
-		// prevent default
-		return false;
 	}
-	if (keyCode === LEFT_ARROW) {
-		// previous meme
-		// get next image name
-		if (table_setting_r - 1 >= 0) {
-			table_setting_r--;
-		} else {
-			table_setting_r = table_setting.getRowCount() - 1;
-		}
-		// open new csv
-		var filename_in = table_setting.getString(table_setting_r, 0);
-		print("meme:" + filename_in);
 
-		// load table
-		table = loadTable("csv/" + filename_in + ".csv", "csv");
+	// open new csv
+	var filename_in = bgm_img[i];
+	print("meme:" + filename_in);
 
-		//reset
-		star_array = [];
+	// load table
+	table = loadTable("csv/" + filename_in + ".csv", "csv");
 
-		// new random center
-		ran_center_x = random(5, windowWidth / 3);
-		ran_center_y = random(5, windowHeight / 3);
+	//reset
+	star_array = [];
 
-		table_r = 0;
+	// new random center
+	ran_center_x = random(5, windowWidth / 3);
+	ran_center_y = random(5, windowHeight / 3);
+	table_r = 0;
 
-		// stop music
-		if (bgm[bgm_now].isPlaying()) {
-			bgm[bgm_now].stop();
-		}
-
-		// select random music
-		ran_song = [];
-		for (var i = 0; i < bgm_src.length; i++) {
-			if (bgm_src[i] == filename_in) {
-				ran_song.push(i);
-			}
-		}
-		bgm_now = ran_song[Math.floor(Math.random() * ran_song.length)];
-		bgm[bgm_now].play();
-
-		// prevent default
-		return false;
+	// stop music
+	if (bgm_audio[bgm_now_i].isPlaying()) {
+		bgm_audio[bgm_now_i].stop();
 	}
+
+	bgm_now_i = index;
+	bgm_audio[index].play();
+
+	background(0);
 }
-function keyReleased() {
-	if (keyCode === RIGHT_ARROW) {
-		table_r = 0;
-		background(0);
-	} else if (keyCode === LEFT_ARROW) {
-		table_r = 0;
-		background(0);
+
+function mySelectEvent2() {
+	choice_music = sel_music.value();
+	bgm_now_name = choice_sound + "_" + choice_music + ".mp3";
+	print("bgm changed to " + bgm_now_name);
+
+	let index = 0;
+	for (var i = 0; i < bgm_name.length; i++) {
+		if (bgm_name[i] == bgm_now_name) {
+			index = i;
+			break;
+		}
 	}
+
+	// open new csv
+	var filename_in = bgm_img[i];
+	print("meme:" + filename_in);
+
+	// load table
+	table = loadTable("csv/" + filename_in + ".csv", "csv");
+
+	//reset
+	star_array = [];
+
+	// new random center
+	ran_center_x = random(5, windowWidth / 3);
+	ran_center_y = random(5, windowHeight / 3);
+	table_r = 0;
+
+	// stop music
+	if (bgm_audio[bgm_now_i].isPlaying()) {
+		bgm_audio[bgm_now_i].stop();
+	}
+
+	bgm_now_i = index;
+	bgm_audio[index].play();
+
+	background(0);
 }
 
 function windowResized() {

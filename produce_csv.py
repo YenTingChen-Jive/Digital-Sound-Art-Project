@@ -7,6 +7,8 @@ import os
 # open setting csv to record the images
 setting_file = open('setting.csv', 'w')
 setting_writer = csv.writer(setting_file)
+setting_file2 = open('setting2.csv', 'w')
+setting_writer2 = csv.writer(setting_file2)
 
 # iterate all images
 for filename in os.listdir("./image"):
@@ -70,4 +72,12 @@ for filename in os.listdir("./image"):
         data.insert(1,count)
         setting_writer.writerow(data)
 
+# adding image to each songs in setting2.csv
+for song_name in os.listdir("./music"):
+    data = [song_name]
+    x = song_name.split("_")
+    data.append(x[0])
+    setting_writer2.writerow(data)
+        
 setting_file.close()
+setting_file2.close()
