@@ -17,7 +17,12 @@ var bgm_name = [];
 var bgm_now_name;
 var bgm_now_i;
 
+function getRandomInt(max) {
+	return Math.floor(Math.random() * max);
+}
+
 function preload() {
+	soundFormats("wav", "mp3");
 	// load table
 	table = loadTable("start.csv", "csv");
 	table_setting2 = loadTable("setting2.csv", "csv");
@@ -32,7 +37,7 @@ function add_bgm() {
 	}
 	bgm_now_name = table_setting2.getString(0, 0);
 	bgm_now_i = 1;
-	choice_sound = "ba";
+	choice_sound = "chicken";
 	choice_music = "Canon_in_d";
 }
 
@@ -44,7 +49,7 @@ function setup() {
 	frameRate(30);
 
 	// table_iteration
-	table_r = 0;
+	table_r = 1;
 	table_setting_r = 0;
 
 	// random center
@@ -63,11 +68,10 @@ function setup() {
 	sel_sound = createSelect();
 	sel_sound.position(20, 20);
 	sel_sound.size(100, 40);
-	sel_sound.option("ba");
-	sel_sound.option("ahwei");
-	sel_sound.option("pika");
-	sel_sound.option("yee");
 	sel_sound.option("chicken");
+	sel_sound.option("pika");
+	sel_sound.option("teacher");
+	sel_sound.option("yee");
 	sel_sound.changed(mySelectEvent1);
 
 	sel_music = createSelect();
@@ -75,8 +79,9 @@ function setup() {
 	sel_music.size(100, 40);
 	sel_music.option("Canon_in_d");
 	sel_music.option("Elise");
-	sel_music.option("Little_star");
+	sel_music.option("Star");
 	sel_music.option("Mariage");
+	sel_music.option("JingleBell");
 	sel_music.changed(mySelectEvent2);
 }
 
@@ -105,6 +110,8 @@ function draw_star() {
 		row_set = int(table.getString(table_r, 0));
 		col_set = int(table.getString(table_r, 1));
 		table_r++;
+	} else {
+		table_r = 0;
 	}
 
 	// center coordinate
@@ -243,7 +250,7 @@ function draw_background() {
 	stroke(r, g, b, 30);
 	noFill();
 	beginShape();
-	TOTAL_DEGREES = document.getElementById("degrees").value;
+	TOTAL_DEGREES = getRandomInt(361);
 
 	for (var i = 0, _pj_a = TOTAL_DEGREES; i < _pj_a; i += 1) {
 		noiseFactor = noise(i * 0.02, Number.parseFloat(frameCount) / 140);
@@ -278,19 +285,19 @@ function draw() {
 
 function mySelectEvent1() {
 	choice_sound = sel_sound.value();
-	bgm_now_name = choice_sound + "_" + choice_music + ".mp3";
+	bgm_now_name = choice_sound + "_" + choice_music + ".wav";
 	print("bgm changed to " + bgm_now_name);
 
 	let index = 0;
 	for (var i = 0; i < bgm_name.length; i++) {
-		if (bgm_name[i] == bgm_now_name) {
+		if (bgm_name[i] === bgm_now_name) {
 			index = i;
 			break;
 		}
 	}
 
 	// open new csv
-	var filename_in = bgm_img[i];
+	var filename_in = bgm_img[index];
 	print("meme:" + filename_in);
 
 	// load table
@@ -317,23 +324,25 @@ function mySelectEvent1() {
 
 function mySelectEvent2() {
 	choice_music = sel_music.value();
-	bgm_now_name = choice_sound + "_" + choice_music + ".mp3";
+	bgm_now_name = choice_sound + "_" + choice_music + ".wav";
 	print("bgm changed to " + bgm_now_name);
 
 	let index = 0;
 	for (var i = 0; i < bgm_name.length; i++) {
-		if (bgm_name[i] == bgm_now_name) {
+		if (bgm_name[i] === bgm_now_name) {
 			index = i;
+			print("break");
 			break;
 		}
 	}
 
 	// open new csv
-	var filename_in = bgm_img[i];
+	var filename_in = bgm_img[index];
 	print("meme:" + filename_in);
 
 	// load table
 	table = loadTable("csv/" + filename_in + ".csv", "csv");
+	print("reading" + "csv/" + filename_in);
 
 	//reset
 	star_array = [];

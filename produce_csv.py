@@ -76,7 +76,10 @@ for filename in os.listdir("./image"):
 for song_name in os.listdir("./music"):
     data = [song_name]
     x = song_name.split("_")
-    data.append(x[0])
+    if(x[1]=="JingleBell.wav"):
+        data.append("x_"+x[0])
+    else:
+        data.append(x[0])
     setting_writer2.writerow(data)
         
 setting_file.close()

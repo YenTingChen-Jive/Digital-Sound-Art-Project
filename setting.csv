@@ -1,4 +1,8 @@
-ahwei,1,ahwei_Little_star.mp3
-ba,4,ba_Canon_in_d.mp3,ba_Elise.mp3,ba_Little_star.mp3,ba_Mariage.mp3
-pika,1,pika_Canon_in_d.mp3
-yee,1,yee_Little_star.mp3
+chicken,5,chicken_Canon_in_d.wav,chicken_Elise.wav,chicken_JingleBell.wav,chicken_Mariage.wav,chicken_Star.wav
+pika,5,pika_Canon_in_d.wav,pika_Elise.wav,pika_JingleBell.wav,pika_Mariage.wav,pika_Star.wav
+teacher,5,teacher_Canon_in_d.wav,teacher_Elise.wav,teacher_JingleBell.wav,teacher_Mariage.wav,teacher_Star.wav
+x_chicken,0
+x_pika,0
+x_teacher,0
+x_yee,0
+yee,5,yee_Canon_in_d.wav,yee_Elise.wav,yee_JingleBell.wav,yee_Mariage.wav,yee_Star.wav
