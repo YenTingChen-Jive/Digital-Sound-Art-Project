@@ -59,6 +59,10 @@ for filename in os.listdir("./image"):
         # img coordinate into csv
         for i in lst:
             data = [indices[0][i], indices[1][i]]
+            bgr = img[int(indices[0][i]), int(indices[1][i])]
+            data.append(bgr[0])
+            data.append(bgr[1])
+            data.append(bgr[2])
             writer.writerow(data)
         file.close()
 

@@ -17,6 +17,7 @@ var bgm_name = [];
 var bgm_now_name;
 var bgm_now_i;
 
+var b_in, g_in, r_in;
 function getRandomInt(max) {
 	return Math.floor(Math.random() * max);
 }
@@ -93,18 +94,11 @@ function draw_star() {
 			img_height = int(table.getString(0, 1));
 			print(img_width, img_height);
 
-			// set star size
-			if (img_width >= img_height) {
-				star_length = img_width;
-			} else {
-				star_length = img_height;
-			}
+			star_size_upper = 1000 * 0.015;
+			star_size_lower = 1000 * 0.007;
+			star_dist = 1000 * 0.00005;
 
-			star_size_upper = star_length * 0.015;
-			star_size_lower = star_length * 0.007;
-			star_dist = star_length * 0.00005;
-
-			table_r++;
+			table_r = 1;
 		}
 		//get star coordinate
 		row_set = int(table.getString(table_r, 0));
@@ -113,17 +107,27 @@ function draw_star() {
 	} else {
 		table_r = 0;
 	}
-
+	print(table_r);
 	// center coordinate
 	row_set += ran_center_y;
 	col_set += ran_center_x;
 
+	if (table_r != 0) {
+		b_in = int(table.getString(table_r, 2));
+		g_in = int(table.getString(table_r, 3));
+		r_in = int(table.getString(table_r, 4));
+	} else {
+		b_in = 0;
+		g_in = 0;
+		r_in = 0;
+	}
+
 	// random star parameter
 	star_size = random(star_size_lower, star_size_upper);
 	var star = {
-		r: int(random(255, 255)),
-		g: int(random(255, 255)),
-		b: int(random(255, 255)),
+		r: r_in,
+		g: g_in,
+		b: b_in,
 		full: 255,
 
 		t: random(TAU),
@@ -187,7 +191,7 @@ function draw_star() {
 		f = 1.5;
 		other.t += 0.03;
 		noStroke();
-		fill(255, 255, 255, other.full);
+		fill(other.r, other.g, other.b, other.full);
 		quad(
 			other.a_upx,
 			other.a_upy - sin(other.t) * f,
