@@ -107,7 +107,6 @@ function draw_star() {
 	} else {
 		table_r = 0;
 	}
-	print(table_r);
 	// center coordinate
 	row_set += ran_center_y;
 	col_set += ran_center_x;
