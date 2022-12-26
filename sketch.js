@@ -94,8 +94,8 @@ function draw_star() {
 			img_height = int(table.getString(0, 1));
 			print(img_width, img_height);
 
-			star_size_upper = 1000 * 0.015;
-			star_size_lower = 1000 * 0.007;
+			star_size_upper = 1000 * 0.01;
+			star_size_lower = 1000 * 0.003;
 			star_dist = 1000 * 0.00005;
 
 			table_r = 1;
