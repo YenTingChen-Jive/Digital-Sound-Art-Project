@@ -1,4 +1,8 @@
-# Project
+# Digital Sound Art Project
+Customized Classical Music and Visual Art
+
+## Abstract
+Established a model that reinterprets classical music through recorded or sampled sounds, presenting customized audio performances with the flexibility to choose specific musical pieces and performance sounds. Integrated digital art to synchronize visual artworks with the music's rhythm, providing a unique and customizable visual art experience alongside the musical performance.
 
 ## Web version
 
